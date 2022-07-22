@@ -1,23 +1,36 @@
-import logo from './logo.svg';
 import './App.css';
+import {useRef, useState} from 'react'
+import axios, { Axios } from "axios"
+import Form from './components/fileuploud';
+import Folders from './components/Folders';
 
 function App() {
+  const [files, setfiles] = useState([])
+  const [Folders, setFolders] = useState([])
+
+  async function allFiles(){
+    axios.get("http://localhost:3002/read")
+    .then( res => setfiles(res.data))
+    .then( console.log(files))
+  }
+  
+  async function allFolders() {
+    axios.get("http://localhost:3002/allfolders")
+    .then( res => setFolders(res.data))
+    .then( console.log(Folders))
+  }
+  allFolders()
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <label>folders:</label>
+    <div>
+      {Folders.map(v => {if(v !==null){return <div>{v}</div> } }  )}
+    </div>
+    <label>files:</label>
+    <div>
+    {files.map(v => {if(v !== null){return <div>{v}</div>} })}
+    </div>
+    <Form setfiles={allFiles}/>
     </div>
   );
 }
