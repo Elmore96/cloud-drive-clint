@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-const Form = ({setfiles}) => {
+const Form = ({setfiles, dir}) => {
   // a local state to store the currently selected file.
   const [selectedFile, setSelectedFile] = React.useState();
 
@@ -9,7 +9,7 @@ const Form = ({setfiles}) => {
     const data = new FormData();
     data.append("file", selectedFile);
 
-    axios.post("http://localhost:3002/upload", data)
+    axios.post(`http://localhost:3002/upload${dir}`,{params: {dir: dir}}, data)
         .then(res => 
     console.log(res))
         .then( setfiles())
